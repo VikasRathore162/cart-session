@@ -4,6 +4,7 @@ session_start();
 include_once 'config.php';
 $action = (isset($_GET['action']) ? $_GET['action'] : '');
 $id = (isset($_GET['id']) ? $_GET['id'] : '');
+$value = (isset($_GET['value']) ? $_GET['value'] : '');
 
 if ($_SESSION['cartItems'] == false) {
     $_SESSION['unique'] = array();
@@ -28,17 +29,23 @@ switch ($action) {
 
     case 'delete':
   
-        for($i=0;$i<count($_SESSION['cartItems']);$i++){
-            if($id==$_SESSION['cartItems'][$i]){
-                unset($_SESSION['cartItems'][$i]);
+        // for($i=0;$i<count($_SESSION['cartItems']);$i++){
+        //     if($id==$_SESSION['cartItems'][$i]){
+        //         unset($_SESSION['cartItems'][$i]);
                
-            }
-        }
-        $_SESSION['cartItems'] = array_values($_SESSION['cartItems']);
-        $_SESSION['unique'] = array_count_values($_SESSION['cartItems']);
+        //     }
+        // }
+        unset($_SESSION['unique'][$id]);
+        // $_SESSION['cartItems'] = array_values($_SESSION['cartItems']);
+        // $_SESSION['unique'] = array_count_values($_SESSION['cartItems']);
         header("location: products.php");
         break;
-    
+
+    case "update":
+
+        $_SESSION['unique'][$id]=$value;
+        echo $_SESSION['unique'][$id];
+        header("location: products.php");
 
 
 }
